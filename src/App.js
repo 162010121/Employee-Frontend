@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import EmployeeProfile from './components/employee/EmployeeProfile'
 import './App.css';
 import './components/employee/Login.css';
+import ForgotPassword from './components/employee/ForgetPassword'
 
 
 export const App = () => {
@@ -48,6 +49,10 @@ export const App = () => {
 						exact
 						path="/register"
 						element={<Registration />}></Route>
+						<Route
+						exact
+						path="/forgot"
+						element={<ForgotPassword />}></Route>
 				</Routes>
 			</Router>
 			

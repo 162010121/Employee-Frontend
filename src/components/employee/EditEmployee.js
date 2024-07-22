@@ -1,27 +1,25 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link,useNavigate ,useParams} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const EditEmployee = () => {
-    const { id } = useParams();
-    let navigate = useNavigate();
+	const { id } = useParams();
+	let navigate = useNavigate();
 	const [employee, setEmployee] = useState({
 		fristName: "",
 		lastName: "",
 		email: "",
 		department: "",
-		salary:" ",
 	});
 	const {
 		fristName,
 		lastName,
 		email,
 		department,
-		salary,
 	} = employee;
 
-	
+
 
 	useEffect(() => {
 		loadEmployee();
@@ -32,7 +30,7 @@ const EditEmployee = () => {
 	const loadEmployee = async () => {
 		const result = await axios.get(
 			`http://localhost:2000/employee/getEmployee/${id}`
-			
+
 		);
 		setEmployee(result.data);
 	};
@@ -43,13 +41,13 @@ const EditEmployee = () => {
 			[e.target.name]: e.target.value,
 		});
 	};
-	
-	
+
+
 	const updateEmployee = async (e) => {
 		e.preventDefault();
 		await axios.put(
 			`http://localhost:2000/employee/updateEmployee/${id}`
-		,employee);
+			, employee);
 		navigate("/view-employee");
 	};
 
@@ -123,28 +121,12 @@ const EditEmployee = () => {
 						onChange={(e) => handleInputChange(e)}
 					/>
 				</div>
-				<div className="input-group mb-5">
-					<label
-						className="input-group-text"
-						htmlFor="salary">
-						Salary
-					</label>
-					<input
-						className="form-control col-sm-6"
-						type="text"
-						name="salary"
-						id="salary"
-						required
-						value={salary}
-						onChange={(e) => handleInputChange(e)}
-					/>
-				</div>
 
 				<div className="row mb-3">
 					<div className="col-sm-3">
 						<button
 							type="submit"
-							className="btn btn-outline-success">
+							className="btn btn-outline-primary">
 							Update
 						</button>
 					</div>
@@ -153,7 +135,7 @@ const EditEmployee = () => {
 						<Link
 							to={"/view-employee"}
 							type="submit"
-							className="btn btn-outline-warning">
+							className="btn btn-outline-secondary">
 							Cancel
 						</Link>
 					</div>
@@ -161,7 +143,7 @@ const EditEmployee = () => {
 			</form>
 		</div>
 	);
-  
+
 }
 
 export default EditEmployee

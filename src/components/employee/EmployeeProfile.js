@@ -17,7 +17,6 @@ const EmployeeProfile = () => {
 		lastName,
 		email,
 		department,
-		salary,
 	} = employee;
 
 	useEffect(() => {
@@ -111,41 +110,29 @@ const EmployeeProfile = () => {
 						onChange={(e) => handleInputChange(e)}
 					/>
 				</div>
-				<div className="input-group mb-4">
-					<label
-						className="input-group-text"
-						htmlFor="salry">
-						Salary
-					</label>
-					<input
-						className="form-control col-sm-6"
-						type="text"
-						name="salary"
-						id="salary"
-						required
-						value={salary}
-						onChange={(e) => handleInputChange(e)}
-					/>
-				</div>
+		
 
 				<div className="row mb-5">
-					<div className="col-sm-2">
+
+				<div className="col-sm-2">
 						<Link
-						   to={"/view-employee"}
+							to={"/view-employee"}
 							type="submit"
-							className="btn btn-outline-success ">
-							Ok
+							className="btn btn-outline-secondary ">
+							Cancel
 						</Link>
 					</div>
 					
 					<div className="col-sm-2">
 						<Link
-							to={"/view-employee"}
+						   to={"/view-employee"}
 							type="submit"
-							className="btn btn-outline-warning ">
-							Cancel
+							className="btn btn-outline-primary ">
+							OK
 						</Link>
 					</div>
+					
+					
 				</div>
 			</form>
 		</div>

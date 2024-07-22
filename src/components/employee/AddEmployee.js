@@ -12,8 +12,7 @@ const AddStudent = () => {
 		lastName: "",
 		email: "",
 		department: "",
-		password:"",
-		salary:" ",
+		password: "",
 	});
 	const {
 		fristName,
@@ -21,7 +20,7 @@ const AddStudent = () => {
 		email,
 		department,
 		password,
-		salary,
+
 	} = employee;
 
 	const handleInputChange = (e) => {
@@ -41,7 +40,7 @@ const AddStudent = () => {
 
 
 
-	
+
 	return (
 		<div className="col-sm-6  px-5 offset-2">
 			<h2 className="mt-3 text-center mt-3"> Add Employee</h2>
@@ -86,7 +85,7 @@ const AddStudent = () => {
 						className="input-group-text"
 						htmlFor="email">
 						Your Email
-					  </label>
+					</label>
 					<input
 						className="form-control"
 						type="email"
@@ -130,22 +129,7 @@ const AddStudent = () => {
 						onChange={(e) => handleInputChange(e)}
 					/>
 				</div>
-				<div className="input-group mb-5">
-					<label
-						className="input-group-text"
-						htmlFor="salary">
-						Salary
-					</label>
-					<input
-						className="form-control col-sm-6"
-						type="text"
-						name="salary"
-						id="salary"
-						required
-						value={salary}
-						onChange={(e) => handleInputChange(e)}
-					/>
-				</div>
+
 
 				<div className="row mb-5">
 					<div className="col-sm-2">
