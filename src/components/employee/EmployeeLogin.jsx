@@ -55,12 +55,10 @@ export const EmployeeLogin = () => {
 
   return (
     <div>
-      <div class="login-form">
+      <div class="login-form mt-4">
         <form onSubmit={handleFormSubmit}>
           <div className="" >
-
             <h4 class="text-uppercase text-center mb-3">Login to Account</h4>
-
 
             <div class="form-group input-group mt-2">
               <span class="input-group-text"> <i class="fa fa-user"><FaUserAlt /></i> </span>
@@ -92,7 +90,7 @@ export const EmployeeLogin = () => {
               </button>
             </Container>
 
-            <p className='mt-3'>Don't have an account? <Link to="/register">SignUp</Link></p>
+            <p className='mt-3'>Don't have an account? <Link to="/register">Register</Link></p>
             <hr></hr>
             <div class="text-center mt-3">
               <p>Login With:</p>

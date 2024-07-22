@@ -48,7 +48,7 @@ const Registration = () => {
   return (
 
 
-    <div class="login-form">
+    <div class="login-form mt-4">
 
       <form onSubmit={(e) => saveEmployee(e)}>
         <h4 class="text-uppercase text-center">Create an account</h4>

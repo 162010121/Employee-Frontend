@@ -35,7 +35,7 @@ const EmployeeView = () => {
 
         <section>
             <Link to="/register">
-                <button className="btn btn-outline-primary">Add New Employee</button>
+                <button className="btn btn-outline-primary mt-4">Add New Employee</button>
             </Link>
             <div className="text-right mt-3">
             </div>

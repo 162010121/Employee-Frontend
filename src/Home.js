@@ -7,9 +7,9 @@ const Home = () => {
 
 
 
-    <div className='app'>
+    <div className='app mt-4'>
       <title>Full Stack App</title>
-      <h2 style={{ textAlign: "center", color: "GrayText"}}>WelCome to Front-End</h2>
+      <h1 style={{ textAlign: "center", color: "Highlight"}}>WelCome to Front-End</h1>
 
     </div>
 

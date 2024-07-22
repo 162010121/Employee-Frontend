@@ -1,53 +1,36 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Navbar = () => {
   return (
 
-    <div>
-
-      <nav class="navbar  navbar-expand-lg navbar-dark  mb-5">
-        <Link class="navbar-brand" to={"/"} className="btn btn-primary">
-          Home
-        </Link>
-
-        <div className="collapse navbar-collapse" id="navbarNav">
-
-          <li >
-            <Link className="nav-link active"
-
-              to="/view-employee" class="btn btn-secondary">
-              View All Users
-            </Link>
-          </li>
-
-
-            <li class="nav-item ">
-              <Link class="nav-link  
-                  active" aria-current="page" to="/register" className="btn btn-success">Registration+</Link>
-            </li>
-
-
-
-            <li class="nav-item ">
-              <Link class="nav-link  active" aria-current="page" to="/employee-login" className="btn btn-warning">Login</Link>
-            </li>
-
-
-
-
-       
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div>
           <div>
-            
+            <Dropdown>
+              <Dropdown.Toggle variant="info" id="dropdown-basic">
+                Employee
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="/view-employee">Get All Employees</Dropdown.Item>
+                <Dropdown.Item href="/register">Registration</Dropdown.Item>
+                <Dropdown.Item href="/employee-login"> Login</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
           </div>
+
         </div>
+      </div>
+    </nav>
 
-      </nav>
-
-
-
-
-    </div>
 
   )
 

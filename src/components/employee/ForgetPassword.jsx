@@ -30,9 +30,9 @@ const ForgotPassword = () => {
     return (
 
 
-        <div class="login-form  form-floating">
+        <div class="login-form  form-floating mt-3">
 
-            <form className='form form-bg-red'>
+            <form className='form'>
                 <h4 class="text-uppercase text-center">Change Password</h4>
 
                 <div className="mt-4">
