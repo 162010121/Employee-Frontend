@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { FaLock, FaUserAlt } from 'react-icons/fa';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import axios from "axios";
+
 import { Container } from "react-bootstrap";
 
 import './Login.css'
@@ -12,70 +14,68 @@ import './Login.css'
 
 
 export const EmployeeLogin = () => {
+	let navigate = useNavigate();
 
-  const [loginDetails, setLoginDetails] = useState({
-    username: '',
-    password: ''
-  })
-
-  const handleInputChange = (event, field) => {
-    let actualValue = event.target.value
-    setLoginDetails({
-      ...loginDetails,
-      [field]: actualValue
-    })
-  }
-
-
-
-  const handleFormSubmit = (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(loginDetails);
 
-    //validation
+    try {
+      const loginData = {
+        email: email,
+        password: password,
+      };
 
-    if (loginDetails.username.trim() === '' && loginDetails.password.trim() === '') {
-      alert("Username and Password  is required..!");
-      return
+      const response = await fetch('http://localhost:2000/employee/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+
+      if (response.ok) {
+        // Handle successful login
+       // navigate("/view-employee")
+        alert("Login successful!")
+        navigate("/")
+      } else {
+        // Handle errors from the backend
+        setError('Login failed');
+      }
+    } catch (error) {
+      setError('An error occurred while logging in');
     }
-
   };
-
-
-  const handleReset = () => {
-    setLoginDetails({
-      username: ' ',
-      password: ' ',
-    });
-  };
-
-
-
-
 
   return (
     <div>
       <div class="login-form mt-4">
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="" >
             <h4 class="text-uppercase text-center mb-3">Login to Account</h4>
 
             <div class="form-group input-group mt-2">
               <span class="input-group-text"> <i class="fa fa-user"><FaUserAlt /></i> </span>
               <input name="email" class="form-control"
-                placeholder="Username" type="email" value={loginDetails.username}
-                onChange={(e) => handleInputChange(e, 'username')} />
+                placeholder="Username" type="email" value={email}
+                onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div class="form-group input-group mt-3">
               <span class="input-group-text"> <i class="fa fa-user">
                 <FaLock /></i> </span>
               <input name="password" class="form-control "
                 placeholder="Password" type="password"
-                value={loginDetails.password} onChange={(e) => handleInputChange(e, 'password')} />
+                value={password} onChange={(e) => setPassword(e.target .value)} />
+            </div>
+            <div class="mt-2">
+                {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
             </div>
 
-
-
+ 
             <p class="text-end mt-2"> <Link to='/forgot'>Forgot Password?</Link></p>
 
 
@@ -85,10 +85,11 @@ export const EmployeeLogin = () => {
               <button className='btn btn-outline-primary' outline>
                 Login
               </button>
-              <button onClick={handleReset} className="btn btn-outline-primary ms-3">
+              <button className="btn btn-outline-primary ms-3">
                 Reset
               </button>
             </Container>
+
 
             <p className='mt-3'>Don't have an account? <Link to="/register">Register</Link></p>
             <hr></hr>

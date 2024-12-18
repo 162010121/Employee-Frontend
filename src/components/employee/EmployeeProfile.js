@@ -2,6 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Link,useParams} from 'react-router-dom';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const EmployeeProfile = () => {
     const { id } = useParams();
@@ -41,7 +42,11 @@ const EmployeeProfile = () => {
 	
 
 	return (
+
 		<div className="col-sm-6  px-5 offset-2">
+			<div className=" text-center mb-4">
+			<  h4>Employee Details</h4>
+			</div>
 			<form>
 				<div className="input-group mb-4">
 					<label

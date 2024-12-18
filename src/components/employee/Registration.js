@@ -40,7 +40,7 @@ const Registration = () => {
       "http://localhost:2000/employee/add",
       employee
     );
-    alert(" Employee Account Created Successfully")
+    alert("Account Created Successfully")
     navigate("/employee-login");
   };
 
@@ -103,7 +103,7 @@ const Registration = () => {
         <div>
 
 
-          <button className='btn btn-outline-primary w-100' type='submit' >
+          <button className='btn btn-outline-success w-100' type='submit' >
             CREATE ACCOUNT</button>
 
         </div>
