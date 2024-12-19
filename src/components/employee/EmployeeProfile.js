@@ -43,12 +43,14 @@ const EmployeeProfile = () => {
 
 	return (
 
-		<div className="col-sm-6  px-5 offset-2">
-			<div className=" text-center mb-4">
-			<  h4>Employee Details</h4>
+		<div className="login-form mt-5">
+			<div className=" text-center mb-5">
 			</div>
 			<form>
-				<div className="input-group mb-4">
+			<h4 class="text-uppercase text-center">EMPLOYEE DETAILS..!</h4>
+			<hr></hr>
+
+				<div className="input-group mb-4 mt-3">
 					<label
 						className="input-group-text"
 						htmlFor="fristName">
@@ -117,14 +119,13 @@ const EmployeeProfile = () => {
 				</div>
 		
 
-				<div className="row mb-5">
-
+				<div className="row mb-3">
 				<div className="col-sm-2">
 						<Link
 							to={"/view-employee"}
 							type="submit"
 							className="btn btn-outline-secondary ">
-							Cancel
+							OK
 						</Link>
 					</div>
 					
@@ -133,7 +134,7 @@ const EmployeeProfile = () => {
 						   to={"/view-employee"}
 							type="submit"
 							className="btn btn-outline-primary ">
-							OK
+							CANCEL
 						</Link>
 					</div>
 					

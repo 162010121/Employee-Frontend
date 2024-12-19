@@ -57,7 +57,7 @@ export const EmployeeLogin = () => {
         <form onSubmit={handleSubmit}>
           <div className="" >
             <h4 class="text-uppercase text-center mb-3">Login to Account</h4>
-
+            <hr></hr>
             <div class="form-group input-group mt-2">
               <span class="input-group-text"> <i class="fa fa-user"><FaUserAlt /></i> </span>
               <input name="email" class="form-control"

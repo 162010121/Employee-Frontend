@@ -1,4 +1,6 @@
 import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import EmployeeLogin from './components/employee/EmployeeLogin'
 
 
 const Home = () => {

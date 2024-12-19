@@ -48,13 +48,16 @@ const EditEmployee = () => {
 		await axios.put(
 			`http://localhost:2000/employee/updateEmployee/${id}`
 			, employee);
+			alert("EMPLOYEE DETAILS UPDATED SUCCESSFULLY...!");
 		navigate("/view-employee");
 	};
 
 	return (
-		<div className="col-sm-6  px-5 offset-2">
+		<div className="login-form mt-5">
 			<form onSubmit={(e) => updateEmployee(e)}>
-				<div className="input-group mb-5 mt-3">
+			<h4 class="text-uppercase text-center">UPDATE EMPLOYEE DETAILS</h4>
+			<hr></hr>
+				<div className="input-group mb-4 mt-3">
 					<label
 						className="input-group-text"
 						htmlFor="fristName">
@@ -71,7 +74,7 @@ const EditEmployee = () => {
 					/>
 				</div>
 
-				<div className="input-group mb-5">
+				<div className="input-group mb-4">
 					<label
 						className="input-group-text"
 						htmlFor="lastName">
@@ -88,7 +91,7 @@ const EditEmployee = () => {
 					/>
 				</div>
 
-				<div className="input-group mb-5">
+				<div className="input-group mb-4">
 					<label
 						className="input-group-text"
 						htmlFor="email">
@@ -105,7 +108,7 @@ const EditEmployee = () => {
 					/>
 				</div>
 
-				<div className="input-group mb-5">
+				<div className="input-group mb-4">
 					<label
 						className="input-group-text"
 						htmlFor="department">
