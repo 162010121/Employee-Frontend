@@ -9,7 +9,7 @@ import { MdOutlineLogout } from "react-icons/md";
 const Navbar = () => {
   return (
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar  navbar-dark bg-secondary">
       <div class="container-fluid">
        
 
@@ -30,9 +30,6 @@ const Navbar = () => {
               <Dropdown.Menu>
                 <Dropdown.Item href="/">Home</Dropdown.Item>
                 <Dropdown.Item href="/view-employee">Employees</Dropdown.Item>
-                <Dropdown.Item href="/register">Registration</Dropdown.Item>
-                <Dropdown.Item href="/employee-login"> Login</Dropdown.Item>
-                <Dropdown.Item href="/employee-login"><MdOutlineLogout></MdOutlineLogout></Dropdown.Item>
 
               </Dropdown.Menu>
             </Dropdown>

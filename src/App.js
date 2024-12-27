@@ -55,7 +55,6 @@ export const App = () => {
 						element={<ForgotPassword />}></Route>
 				</Routes>
 			</Router>
-			
 		</main>
 	)
 }

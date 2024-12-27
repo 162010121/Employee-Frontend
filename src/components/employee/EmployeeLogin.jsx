@@ -7,18 +7,14 @@ import axios from "axios";
 import { Container } from "react-bootstrap";
 
 import './Login.css'
-
-
-
-
-
+import  './LoginValidation'
 
 export const EmployeeLogin = () => {
 	let navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -35,20 +31,23 @@ export const EmployeeLogin = () => {
         },
         body: JSON.stringify(loginData),
       });
-
-
+      
       if (response.ok) {
         // Handle successful login
        // navigate("/view-employee")
-        alert("Login successful!")
+        alert("LOGIN SUCCESS..!")
         navigate("/")
-      } else {
+      }
+        else {
         // Handle errors from the backend
         setError('Login failed');
       }
-    } catch (error) {
+    } 
+    catch (error) {
       setError('An error occurred while logging in');
     }
+
+    
   };
 
   return (
@@ -56,12 +55,13 @@ export const EmployeeLogin = () => {
       <div class="login-form mt-4">
         <form onSubmit={handleSubmit}>
           <div className="" >
-            <h4 class="text-uppercase text-center mb-3">Login to Account</h4>
+            <h4 class="text-uppercase text-center">Login to Account</h4>
             <hr></hr>
-            <div class="form-group input-group mt-2">
+            <div class="form-group input-group ">
               <span class="input-group-text"> <i class="fa fa-user"><FaUserAlt /></i> </span>
               <input name="email" class="form-control"
-                placeholder="Username" type="email" value={email}
+                placeholder="Username" type="email"
+                 value={email}
                 onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div class="form-group input-group mt-3">
@@ -69,29 +69,21 @@ export const EmployeeLogin = () => {
                 <FaLock /></i> </span>
               <input name="password" class="form-control "
                 placeholder="Password" type="password"
+                
                 value={password} onChange={(e) => setPassword(e.target .value)} />
             </div>
             <div class="mt-2">
                 {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
             </div>
-
- 
-            <p class="text-end mt-2"> <Link to='/forgot'>Forgot Password?</Link></p>
-
-
-
-
+            <p class="text-end"> <Link to='/forgot'>Forgot Password?</Link></p>
             <Container className='text-center'>
-              <button className='btn btn-outline-primary' outline>
-                Login
-              </button>
-              <button className="btn btn-outline-primary ms-3">
-                Reset
+              <button className='btn btn-outline-primary w-100' outline>
+                Log  in
               </button>
             </Container>
 
 
-            <p className='mt-3'>Don't have an account? <Link to="/register">Register</Link></p>
+            <p className='mt-2'>Don't have an account? <Link to="/register">Register</Link></p>
             <hr></hr>
             <div class="text-center mt-3">
               <p>Login With:</p>
@@ -104,7 +96,7 @@ export const EmployeeLogin = () => {
               </button>
 
               <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-twitter"><Link to='https://www.twitter.com/'><FaTwitter /></Link></i>
+                <i class="fab fa-twitter"><Link to='https://www.twitter.com/'><FaTwitter/></Link></i>
               </button>
 
               <button type="button" class="btn btn-link btn-floating mx-1">

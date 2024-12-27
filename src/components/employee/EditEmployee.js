@@ -48,7 +48,7 @@ const EditEmployee = () => {
 		await axios.put(
 			`http://localhost:2000/employee/updateEmployee/${id}`
 			, employee);
-			alert("EMPLOYEE DETAILS UPDATED SUCCESSFULLY...!");
+			alert("UPDATED SUCCESSFULLY...!");
 		navigate("/view-employee");
 	};
 
@@ -108,22 +108,6 @@ const EditEmployee = () => {
 					/>
 				</div>
 
-				<div className="input-group mb-4">
-					<label
-						className="input-group-text"
-						htmlFor="department">
-						Department
-					</label>
-					<input
-						className="form-control col-sm-6"
-						type="text"
-						name="department"
-						id="department"
-						required
-						value={department}
-						onChange={(e) => handleInputChange(e)}
-					/>
-				</div>
 
 				<div className="row mb-3">
 					<div className="col-sm-3">
@@ -134,7 +118,7 @@ const EditEmployee = () => {
 						</button>
 					</div>
 
-					<div className="col-sm-2">
+					<div className="col-sm">
 						<Link
 							to={"/view-employee"}
 							type="submit"

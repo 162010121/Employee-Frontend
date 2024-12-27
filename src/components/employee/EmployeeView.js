@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Dropdown from 'react-bootstrap/Dropdown';
-import { MdOutlineLogout } from "react-icons/md";
 
 
 
@@ -28,19 +26,15 @@ const EmployeeView = () => {
 
     };
 
-
-
-
-
-
-
     return (
-
-        <section>
+       <form>
+        <section> 
+            <div className='mt-3 float-left'>
             <Link to="/register">
-                <button className="btn btn-outline-primary mt-4">Add New Employee</button>
-            </Link>
-            <div className="text-right mt-3">
+                <button className="btn btn-outline-primary ">Add New Employee</button>
+            </Link> 
+            </div>
+            <div className="text-right mt-3">                  
             </div>
             <table className='table table-bordered table-hover shadow'>
                 <thead>
@@ -49,8 +43,6 @@ const EmployeeView = () => {
                         <th>FristName</th>
                         <th>LastName</th>
                         <th>Email</th>
-                        <th>Department</th>
-
                         <th colSpan="3">Action</th>
                     </tr>
                 </thead>
@@ -63,7 +55,6 @@ const EmployeeView = () => {
                             <td>{employee.fristName}</td>
                             <td>{employee.lastName}</td>
                             <td>{employee.email}</td>
-                            <td>{employee.department}</td>
 
                             <td className="mx-2">
                                 <Link to={`/employee-profile/${employee.id}`} className="btn btn-info m-1">
@@ -87,6 +78,7 @@ const EmployeeView = () => {
             </table>
 
         </section>
+        </form>
 
     )
 }
