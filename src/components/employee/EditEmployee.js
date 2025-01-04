@@ -7,13 +7,13 @@ const EditEmployee = () => {
 	const { id } = useParams();
 	let navigate = useNavigate();
 	const [employee, setEmployee] = useState({
-		fristName: "",
+		firstName: "",
 		lastName: "",
 		email: "",
 		department: "",
 	});
 	const {
-		fristName,
+		firstName,
 		lastName,
 		email,
 		department,
@@ -48,28 +48,28 @@ const EditEmployee = () => {
 		await axios.put(
 			`http://localhost:2000/employee/updateEmployee/${id}`
 			, employee);
-			alert("UPDATED SUCCESSFULLY...!");
+		alert("UPDATED SUCCESSFULLY...!");
 		navigate("/view-employee");
 	};
 
 	return (
 		<div className="login-form mt-5">
 			<form onSubmit={(e) => updateEmployee(e)}>
-			<h4 class="text-uppercase text-center">UPDATE EMPLOYEE DETAILS</h4>
-			<hr></hr>
+				<h4 class="text-uppercase text-center">USER DETAILS</h4>
+				<hr></hr>
 				<div className="input-group mb-4 mt-3">
 					<label
 						className="input-group-text"
-						htmlFor="fristName">
+						htmlFor="firstName">
 						First Name
 					</label>
 					<input
 						className="form-control col-sm-6"
 						type="text"
-						name="fristName"
-						id="fristName"
+						name="firstName"
+						id="firstName"
 						required
-						value={fristName}
+						value={firstName}
 						onChange={(e) => handleInputChange(e)}
 					/>
 				</div>

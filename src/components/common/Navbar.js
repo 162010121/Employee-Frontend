@@ -29,7 +29,7 @@ const Navbar = () => {
 
               <Dropdown.Menu>
                 <Dropdown.Item href="/">Home</Dropdown.Item>
-                <Dropdown.Item href="/view-employee">Employees</Dropdown.Item>
+                <Dropdown.Item href="/view-employee">Users</Dropdown.Item>
 
               </Dropdown.Menu>
             </Dropdown>

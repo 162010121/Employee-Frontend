@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { FaLock, FaUserAlt } from 'react-icons/fa';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from "react-icons/fa";
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import { Container } from "react-bootstrap";
 
 import './Login.css'
-import  './LoginValidation'
+import './LoginValidation'
 
 export const EmployeeLogin = () => {
-	let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,23 +31,23 @@ export const EmployeeLogin = () => {
         },
         body: JSON.stringify(loginData),
       });
-      
+
       if (response.ok) {
         // Handle successful login
-       // navigate("/view-employee")
+        // navigate("/view-employee")
         alert("LOGIN SUCCESS..!")
         navigate("/")
       }
-        else {
+      else {
         // Handle errors from the backend
         setError('Login failed');
       }
-    } 
+    }
     catch (error) {
       setError('An error occurred while logging in');
     }
 
-    
+
   };
 
   return (
@@ -61,7 +61,7 @@ export const EmployeeLogin = () => {
               <span class="input-group-text"> <i class="fa fa-user"><FaUserAlt /></i> </span>
               <input name="email" class="form-control"
                 placeholder="Username" type="email"
-                 value={email}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div class="form-group input-group mt-3">
@@ -69,15 +69,15 @@ export const EmployeeLogin = () => {
                 <FaLock /></i> </span>
               <input name="password" class="form-control "
                 placeholder="Password" type="password"
-                
-                value={password} onChange={(e) => setPassword(e.target .value)} />
+
+                value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div class="mt-2">
-                {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+              {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
             </div>
             <p class="text-end"> <Link to='/forgot'>Forgot Password?</Link></p>
             <Container className='text-center'>
-              <button className='btn btn-outline-primary w-100' outline>
+              <button className='btn btn-primary w-100' outline>
                 Log  in
               </button>
             </Container>
@@ -96,7 +96,7 @@ export const EmployeeLogin = () => {
               </button>
 
               <button type="button" class="btn btn-link btn-floating mx-1">
-                <i class="fab fa-twitter"><Link to='https://www.twitter.com/'><FaTwitter/></Link></i>
+                <i class="fab fa-twitter"><Link to='https://www.twitter.com/'><FaTwitter /></Link></i>
               </button>
 
               <button type="button" class="btn btn-link btn-floating mx-1">

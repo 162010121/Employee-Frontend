@@ -1,0 +1,22 @@
+.home {
+    text-align: center;
+    margin-top: 10%;
+    font-weight: 500;
+    color: rgb(48, 50, 39);
+}
+
+.tr {
+    text-align: center;
+    margin-top: 10%;
+    font-weight: 500;
+    background-color: rgb(204, 220, 224);
+}
+
+
+.tbody {
+    text-align: center;
+    margin-top: 10%;
+    font-weight: 500;
+    color: rgb(10, 10, 10);
+
+}

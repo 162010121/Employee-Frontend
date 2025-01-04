@@ -1,113 +1,136 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Login.css'
-import {useNavigate,
+import {
+  useNavigate
 } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 export const Registration = () => {
   let navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState("");
-  const [fristName, setFristName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const [errors, setErrors] = useState({});
 
-    try {
-      const registerData = {
-        email: email,
-        password: password,
-        fristName: fristName,
-        lastName: lastName,
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
-      };
+  const validateForm = () => {
+    let formErrors = {};
+    if (!formData.firstName) formErrors.firstName = 'First name is required';
+    if (!formData.lastName) formErrors.lastName = 'Last name is required';
+    if (!formData.email) formErrors.email = 'Email is required';
+    if (!formData.password) formErrors.password = 'Password is required';
+    if (formData.password !== formData.confirmPassword) formErrors.confirmPassword = 'Passwords do not match';
+    if (formData.password.length < 6) formErrors.password = 'Password must be at least 6 characters';
+    if (!formData.confirmPassword) formErrors.confirmPassword = 'Confirm Password is required';
+    return formErrors;
+  };
 
-      const response = await fetch('http://localhost:2000/employee/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registerData),
-      });
-      if (response.ok) {
-        // Handle successful login
-        //    // navigate("/view-employee")
-        alert("ACCOUNT CREATED SUCCESS..!")
-        navigate("/")
-
-      }  
-      else {
-        // Handle errors from the backend
-        setError('Feilds Can not be blank..!');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const notify = () => toast.success("You are successfully registered..!");
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length === 0) {
+      try {
+        const response = await axios.post('http://localhost:2000/employee/register', formData);
+        notify();
+        alert("You are successfully registered..!");
+        navigate('/employee-login');
+      } catch (error) {
+        setErrors('Error during registration');
       }
-    } catch (error) {
-      setError('An error occurred while logging in');
+    } else {
+      setErrors(formErrors);
     }
   };
 
-
   return (
-
-
-    <div class="login-form mt-3">
-
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <h4 class="text-uppercase text-center">Create an account</h4>
-        <hr></hr>
+    <div className="login-form mt-3">
+      <form onSubmit={handleSubmit}>
+        <ToastContainer />
+        <h4 className="text-uppercase text-center">Create an account</h4>
+        <hr />
         <div className="mt-1">
           <input
-            type="fristName"
-            class="form-control"
-            id="fristName"  
-            name='fristName' placeholder="Enter FristName"
-            value={fristName} onChange={(e) => setFristName(e.target.value)} />
+            type="text"
+            className="form-control"
+            name="firstName"
+            placeholder="Enter First Name"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          {errors.firstName && <span className="text-danger">{errors.firstName}</span>}
         </div>
-
         <div className="mt-3">
           <input
-            type="lastName"
-            
-            class="form-control"
-            name='lastName' placeholder="Enter LastName"
-            value={lastName} onChange={(e) => setLastName(e.target.value)} />
+            type="text"
+            className="form-control"
+            name="lastName"
+            placeholder="Enter Last Name"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+          {errors.lastName && <span className="text-danger">{errors.lastName}</span>}
         </div>
-
-
         <div className="mt-3">
           <input
             type="email"
-            
-            class="form-control"
-            name='email' placeholder="Enter Email"
-            value={email} onChange={(e) => setEmail(e.target.value)} />
+            className="form-control"
+            name="email"
+            placeholder="Enter Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && <span className="text-danger">{errors.email}</span>}
         </div>
         <div className="mt-3">
           <input
             type="password"
-            class="form-control"
-            
-            name='password' placeholder="Enter Password"
-            value={password} onChange={(e) => setPassword(e.target.value)} />
+            className="form-control"
+            name="password"
+            placeholder="Enter Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && <span className="text-danger">{errors.password}</span>}
         </div>
-        <div className='mt-2'>
-        {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
+        <div className="mt-3">
+          <input
+            type="password"
+            className="form-control"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          {errors.confirmPassword && <span className="text-danger">{errors.confirmPassword}</span>}
         </div>
-        <div className='text-center'>
-          <button className='btn btn-primary mt-2' type='submit' >
-            CREATE ACCOUNT</button>
+        <div className="mt-2">
+          {errors.general && <p className="text-danger text-center">{errors.general}</p>}
         </div>
-        <div class="mt-2">
+        <div className="text-center">
+          <button type="submit" className="btn btn-primary mt-2">CREATE ACCOUNT</button>
         </div>
-        <p className='mt-2'>I Have an account <Link to="/employee-login">Login !</Link></p>
+        <p className="mt-2">I have an account <Link to="/employee-login">Login!</Link></p>
         <hr />
       </form>
     </div>
+  );
+};
 
-
-  )
-}
-
-export default Registration
+export default Registration;

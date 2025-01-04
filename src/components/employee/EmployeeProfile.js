@@ -1,20 +1,20 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link,useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Dropdown } from 'bootstrap';
 
 const EmployeeProfile = () => {
-    const { id } = useParams();
+	const { id } = useParams();
 	const [employee, setEmployee] = useState({
-		fristName: "",
+		firstName: "",
 		lastName: "",
 		email: "",
 		department: "",
-		salary:" ",
+		salary: " ",
 	});
 	const {
-		fristName,
+		firstName,
 		lastName,
 		email,
 		department,
@@ -27,19 +27,19 @@ const EmployeeProfile = () => {
 	const loadEmployee = async () => {
 		const result = await axios.get(
 			`http://localhost:2000/employee/getEmployee/${id}`
-			,employee
+			, employee
 		);
 		setEmployee(result.data);
 	};
 
-	
+
 	const handleInputChange = (e) => {
 		setEmployee({
 			...employee,
 			[e.target.name]: e.target.value,
 		});
 	};
-	
+
 
 	return (
 		<><div className="d-grid justify-content-md-end mt-3">
@@ -49,25 +49,25 @@ const EmployeeProfile = () => {
 				</button>
 			</Link>
 		</div><div className="login-form">
-     		<div className=" text-center">
+				<div className=" text-center">
 				</div>
 				<form>
-					<h4 class="text-uppercase text-center">EMPLOYEE DETAILS..!</h4>
+					<h4 class="text-uppercase text-center">USER DETAILS..!</h4>
 					<hr></hr>
 
 					<div className="input-group mb-4 mt-3">
 						<label
 							className="input-group-text"
-							htmlFor="fristName">
-							First Name
+							htmlFor="firstName">
+							Frist Name
 						</label>
 						<input
 							className="form-control col-sm-6"
 							type="text"
-							name="fristName"
-							id="fristName"
+							name="firstName"
+							id="firstName"
 							required
-							value={fristName}
+							value={firstName}
 							onChange={(e) => handleInputChange(e)} />
 					</div>
 
@@ -126,7 +126,7 @@ const EmployeeProfile = () => {
 				</form>
 			</div></>
 	);
-  
+
 }
 
 export default EmployeeProfile
