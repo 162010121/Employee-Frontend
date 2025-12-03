@@ -1,0 +1,28 @@
+/* Container styles */
+.div1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Form styles */
+.rr-form {
+    background: white;
+    margin-top: 100px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Heading styles */
+h2 {
+    font-size: 28px;
+    margin: 0;
+    color: #333 !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}

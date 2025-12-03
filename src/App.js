@@ -11,6 +11,7 @@ import EmployeeProfile from './components/employee/EmployeeProfile'
 import './App.css';
 import './components/employee/Login.css';
 import ForgotPassword from './components/employee/ForgetPassword'
+import RREmployee from './components/employee/RREmployee'
 
 
 export const App = () => {
@@ -53,6 +54,10 @@ export const App = () => {
 						exact
 						path="/forgot"
 						element={<ForgotPassword />}></Route>
+						<Route
+						exact
+						path="/rr-employee"
+						element={<RREmployee />}></Route>
 				</Routes>
 			</Router>
 		</main>

@@ -36,7 +36,7 @@ const EmployeeView = () => {
                 </div>
                 <div className="text-right mt-3">
                 </div>
-                <table className='table table-bordered table-striped table-hover mt-3 text-center' style={{ borderColor: 'teal' }}>
+                <table className='table  table-striped table-hover mt-3 text-center' style={{ borderColor: 'teal' }}>
                     <thead>
                         <tr className='tr'>
                             <th>ID</th>

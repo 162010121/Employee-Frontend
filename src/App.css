@@ -2,7 +2,7 @@
     text-align: center;
     margin-top: 10%;
     font-weight: 500;
-    color: rgb(48, 50, 39);
+    color:   #636e72;
 }
 
 .tr {
@@ -13,9 +13,10 @@
 }
 
 
+
 .tbody {
     text-align: center;
-    margin-top: 10%;
+    margin-top: 20px;
     font-weight: 500;
     color: rgb(10, 10, 10);
 

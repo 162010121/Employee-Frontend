@@ -1,7 +1,10 @@
 .login-form {
-    width: 380px;
+    width: 380px ;
     margin: 5px auto;
     font-size: 15px;
+   
+    padding : 10px;
+
 }
 .login-form form {
     margin-bottom: 20px;   
@@ -10,8 +13,7 @@
     border-radius: 10px;
 
 }
-
-.form-control,
-.btn {
-    border-radius: 5px;
+.login-form input{
+   padding: 5px; 
 }
+
