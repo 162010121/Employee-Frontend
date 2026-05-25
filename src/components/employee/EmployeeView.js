@@ -1,86 +1,234 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-
+import "./DeleteModal.css";
 
 const EmployeeView = () => {
+  const [employee, setEmployee] = useState([]);
+  const [filteredEmployee, setFilteredEmployee] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
-    const [employee, setEmployee] = useState([]);
-    useEffect(() => {
-        loadEmployee();
-    }, []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
 
-    const loadEmployee = async () => {
-        const result = await axios.get("http://localhost:2000/employee/getAllEmployee");
-        setEmployee(result.data);
+  // Delete popup
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  useEffect(() => {
+    loadEmployee();
+  }, []);
+
+  const loadEmployee = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:2000/employee/getAllEmployee"
+      );
+      const data = Array.isArray(res.data) ? res.data : [];
+      setEmployee(data);
+      setFilteredEmployee(data);
+      setCurrentPage(1);
+    } catch (error) {
+      console.error("Error loading employees:", error);
     }
-    const handleDelete = async (id) => {
-        const result = await axios.delete(
-            `http://localhost:2000/employee/deleteEmployee/${id}`
+  };
 
-        )
-        loadEmployee(result.data);
+  // 🔍 LIVE ADVANCED SEARCH
+  const handleLiveSearch = (value) => {
+    setSearchText(value);
 
+    if (value.trim() === "") {
+      setFilteredEmployee(employee);
+      setCurrentPage(1);
+      return;
+    }
 
-    };
+    const lowerValue = value.toLowerCase();
 
-    return (
-        <form>
-            <section>
-                <div className='mt-3 float-left'>
-                    <Link to="/register">
-                        <button className="btn btn-primary ">Add New User</button>
-                    </Link>
-                </div>
-                <div className="text-right mt-3">
-                </div>
-                <table className='table  table-striped table-hover mt-3 text-center' style={{ borderColor: 'teal' }}>
-                    <thead>
-                        <tr className='tr'>
-                            <th>ID</th>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                            <th colSpan="3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className='tbody'>
-                        {employee.map((employee, index) => (
-                            <tr key={employee.id}>
-                                <th scope='row' key={index}>
-                                    {index + 1}
-                                </th>
-                                <td>{employee.firstName}</td>
-                                <td>{employee.lastName}</td>
-                                <td>{employee.email}</td>
+    const filtered = employee.filter((emp) =>
+      emp.firstName.toLowerCase().includes(lowerValue) ||
+      emp.lastName.toLowerCase().includes(lowerValue) ||
+      emp.email.toLowerCase().includes(lowerValue)
+    );
 
-                                <td className="mx-2">
-                                    <Link to={`/employee-profile/${employee.id}`} className="btn btn-info m-1">
-                                        <FaEye />
-                                    </Link>
-                                </td>
-                                <td className="mx-2">
-                                    <Link to={`/edit-employee/${employee.id}`} className="btn btn-primary m-1">
-                                        <FaEdit />
-                                    </Link>
-                                </td>
-                                <td className="mx-2">
-                                    <button className="btn btn-danger m-1"
-                                        onClick={() => { if (window.confirm('Are you sure to delete this record?')) { handleDelete(employee.id) }; }}>
-                                        <FaTrashAlt />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    setFilteredEmployee(filtered);
+    setCurrentPage(1);
+  };
 
-            </section>
-        </form>
+  // Delete handlers
+  const openDeletePopup = (id) => {
+    setSelectedId(id);
+    setShowDeletePopup(true);
+  };
 
-    )
-}
+  const closePopup = () => {
+    setShowDeletePopup(false);
+    setSelectedId(null);
+  };
 
-export default EmployeeView
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:2000/employee/deleteEmployee/${selectedId}`
+      );
+      loadEmployee();
+      closePopup();
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+  // Pagination
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredEmployee.length / recordsPerPage)
+  );
+
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredEmployee.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+
+  return (
+    <section className="container mt-3">
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <Link to="/register">
+          <button className="btn btn-primary">Add New User</button>
+        </Link>
+
+        {/* 🔍 LIVE SEARCH INPUT */}
+        <input
+          type="text"
+          className="form-control w-25"
+          placeholder="Search by username / email..."
+          value={searchText}
+          onChange={(e) => handleLiveSearch(e.target.value)}
+        />
+      </div>
+
+      {/* TABLE */}
+      <table className="table table-striped table-hover text-center">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th colSpan="3">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {currentRecords.length === 0 ? (
+            <tr>
+              <td colSpan="7">No records found</td>
+            </tr>
+          ) : (
+            currentRecords.map((emp, idx) => (
+              <tr key={emp.id}>
+                <td>{indexOfFirstRecord + idx + 1}</td>
+                <td>{emp.firstName}</td>
+                <td>{emp.lastName}</td>
+                <td>{emp.email}</td>
+
+                <td>
+                  <Link
+                    to={`/employee-profile/${emp.id}`}
+                    className="btn btn-info btn-sm"
+                  >
+                    <FaEye />
+                  </Link>
+                </td>
+
+                <td>
+                  <Link
+                    to={`/edit-employee/${emp.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
+                    <FaEdit />
+                  </Link>
+                </td>
+
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => openDeletePopup(emp.id)}
+                  >
+                    <FaTrashAlt />
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+      {/* DELETE MODAL */}
+      {showDeletePopup && (
+        <div className="modal-overlay">
+          <div className="modal-box animate-popup">
+            <h4>Are you sure?</h4>
+            <p>This record will be permanently deleted.</p>
+            <div className="modal-buttons">
+              <button className="btn btn-danger" onClick={confirmDelete}>
+                Yes, Delete
+              </button>
+              <button className="btn btn-secondary" onClick={closePopup}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PAGINATION */}
+      <div className="d-flex justify-content-center mt-3">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </button>
+          </li>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <li
+              key={i}
+              className={`page-item ${
+                currentPage === i + 1 ? "active" : ""
+              }`}
+            >
+              <button
+                className="page-link"
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            </li>
+          ))}
+
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+  );
+};
+
+export default EmployeeView;

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { FaLock, FaUserAlt } from 'react-icons/fa';
-import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { Container } from "react-bootstrap";
-
 import './Login.css';
 
 export const EmployeeLogin = () => {
@@ -12,11 +10,13 @@ export const EmployeeLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
- 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [generalError, setGeneralError] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // ⭐ SUCCESS POPUP STATE
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const validateForm = () => {
     let valid = true;
@@ -58,19 +58,49 @@ export const EmployeeLogin = () => {
       });
 
       if (response.ok) {
-        alert("LOGIN SUCCESS..!");
-        navigate("/");
+        setLoading(true);
+
+        setTimeout(() => {
+          setLoading(false);
+
+          // ⭐ Show Success Animation
+          setShowSuccess(true);
+
+          setTimeout(() => {
+            setShowSuccess(false);
+            navigate("/view-employee");
+          }, 2000);
+
+        }, 3000);
+
       } else {
         const errorData = await response.json();
         setGeneralError(errorData.message || 'Enter Valid Credentials');
       }
     } catch (error) {
+      setLoading(false);
       setGeneralError("An error occurred during login");
     }
   };
 
   return (
     <div>
+
+      {/* 🔥 Full Screen Loading Overlay */}
+      {loading && (
+        <div className="loader-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+
+      {/* ⭐ SUCCESS POPUP */}
+      {showSuccess && (
+        <div className="success-popup">
+          <div className="tick"></div>
+          <h3>Login Successful!</h3>
+        </div>
+      )}
+
       <div className="login-form mt-4">
         <form onSubmit={handleSubmit}>
           <h4 className="text-uppercase text-center">Login to Account</h4>
@@ -91,10 +121,9 @@ export const EmployeeLogin = () => {
             />
           </div>
 
-          {/* Email Error */}
           {emailError && <small className="text-danger">{emailError}</small>}
 
-          {/* Password Input */}
+          {/* Password */}
           <div className="form-group input-group mt-3">
             <span className="input-group-text">
               <FaLock />
@@ -109,21 +138,28 @@ export const EmployeeLogin = () => {
             />
           </div>
 
-          {/* Password Error */}
           {passwordError && <small className="text-danger">{passwordError}</small>}
 
-          {/* General Backend Error */}
-          <div className="mt-2">
-            {generalError && <p style={{ color: "red", textAlign: "center" }}>{generalError}</p>}
-          </div>
+          {/* Backend Error */}
+          {generalError && (
+            <p style={{ color: "red", textAlign: "center" }}>{generalError}</p>
+          )}
 
           <p className="text-end">
             <Link to="/forgot">Forgot Password?</Link>
           </p>
 
           <Container className="text-center">
-            <button className="btn btn-primary w-100" type="submit">
-              Log in
+            <button
+              className="btn btn-primary w-100"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="spinner-border spinner-border-sm"></span>
+              ) : (
+                "LOG IN"
+              )}
             </button>
           </Container>
 

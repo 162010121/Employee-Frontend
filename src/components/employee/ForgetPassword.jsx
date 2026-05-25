@@ -1,68 +1,45 @@
-
-
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Container } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-
+import "./Login.css"; // uses the CSS below added to Login.css
 
 const ForgotPassword = () => {
-
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-
         email: '',
         newPassword: '',
         confirmPassword: '',
     });
 
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-
-        setErrors((prev) => ({ ...prev, [name]: "" }));
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: "" }));
     };
 
-
     const validateForm = () => {
-        let formErrors = {};
-
-
+        const formErrors = {};
 
         if (!formData.email.trim()) {
             formErrors.email = "Email is required";
         } else {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(formData.email))
-                formErrors.email = "Enter a valid email";
+            if (!emailRegex.test(formData.email)) formErrors.email = "Enter a valid email";
         }
 
-
-
-        if (!formData.newPassword)
-            formErrors.newPassword = "New Password is required";
-
+        if (!formData.newPassword) formErrors.newPassword = "New Password is required";
         if (formData.newPassword && formData.newPassword.length < 6)
             formErrors.newPassword = "Password must be at least 6 characters";
 
-        if (!formData.confirmPassword)
-            formErrors.confirmPassword = "Confirm password is required";
-
-        if (
-            formData.newPassword &&
-            formData.confirmPassword &&
-            formData.newPassword !== formData.confirmPassword
-        )
+        if (!formData.confirmPassword) formErrors.confirmPassword = "Confirm password is required";
+        if (formData.newPassword && formData.confirmPassword && formData.newPassword !== formData.confirmPassword)
             formErrors.confirmPassword = "Passwords do not match";
 
         return formErrors;
@@ -73,60 +50,55 @@ const ForgotPassword = () => {
 
         const formErrors = validateForm();
         setErrors(formErrors);
-
         if (Object.keys(formErrors).length !== 0) return;
 
         try {
-            await axios.put(`http://localhost:2000/employee/changePassword/${formData.email}`, formData);
+            setLoading(true);
+
+            await axios.put(
+                `http://localhost:2000/employee/changePassword/${formData.email}`,
+                formData
+
+            );
 
 
+            // show the same success popup style as Login page
+            setShowSuccess(true);
 
-
-
-            // toast.success("Password Updated Successfully...!", {
-            //     position: "top-center",
-            //     autoClose: 7000,   // 2 seconds
-            // });
-
-            // // Delay navigation so user can see the toast
-            // setTimeout(() => {
-            //     navigate("/employee-login");
-            // }, 7000);
-
-
-            toast.success("Password Updated Successfully...!", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-            });
+            // keep popup visible for 2s, then navigate
             setTimeout(() => {
+                setShowSuccess(false);
+                setLoading(false);
                 navigate("/employee-login");
-            }, 5000);
+            }, 2000);
 
         } catch (error) {
+            setLoading(false);
             if (error.response && error.response.status === 500) {
-                setErrors({
-                    email: "Email not found",
-                });
+                setErrors({ email: "Email not found" });
                 return;
             }
-            else {
-                setErrors({
-                    general: error.response?.data?.message || "Error during updating password",
-                });
-            }
+            setErrors({
+                general: error.response?.data?.message || "Error during updating password",
+            });
         }
     };
-
 
     return (
         <div className="login-form mt-3">
             <ToastContainer />
+
+            {/* Success popup (same style as Login page) */}
+            {showSuccess && (
+                <div className="success-popup">
+                    <div className="tick"></div>
+                    <h3>Password Updated!</h3>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <h4 className="text-uppercase text-center">CHANGE PASSWORD..!</h4>
                 <hr />
-
 
                 {/* Email */}
                 <div className="mt-3">
@@ -137,39 +109,35 @@ const ForgotPassword = () => {
                         placeholder="Enter Email"
                         value={formData.email}
                         onChange={handleChange}
+                        disabled={loading}
                     />
-                    {errors.email && (
-                        <small className="text-danger">{errors.email}</small>
-                    )}
+                    {errors.email && <small className="text-danger">{errors.email}</small>}
                 </div>
 
-
-
-                {/* Password */}
+                {/* New Password */}
                 <div className="mt-3">
                     <input
-                        type="newPassword"
+                        type="password"
                         className={`form-control ${errors.newPassword ? "is-invalid" : ""}`}
                         name="newPassword"
                         placeholder="Enter New Password"
                         value={formData.newPassword}
                         onChange={handleChange}
+                        disabled={loading}
                     />
-                    {errors.newPassword && (
-                        <small className="text-danger">{errors.newPassword}</small>
-                    )}
+                    {errors.newPassword && <small className="text-danger">{errors.newPassword}</small>}
                 </div>
 
                 {/* Confirm Password */}
                 <div className="mt-3">
                     <input
-                        type="confirmPassword"
-                        className={`form-control ${errors.confirmPassword ? "is-invalid" : ""
-                            }`}
+                        type="password"
+                        className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         value={formData.confirmPassword}
                         onChange={handleChange}
+                        disabled={loading}
                     />
                     {errors.confirmPassword && (
                         <small className="text-danger">{errors.confirmPassword}</small>
@@ -181,24 +149,30 @@ const ForgotPassword = () => {
                     <p className="text-danger text-center mt-2">{errors.general}</p>
                 )}
 
-                <div >
-                    <Container className='mt-4'>
-                        <Link to='/employee-login'>
-                            <button className='btn btn-secondary' outline>
-                                CANCEL
-                            </button>
-                        </Link>
-                        <button className="btn btn-primary ms-2">
-                            UPDATE
+                <Container className="mt-4">
+                    <Link to='/employee-login'>
+                        <button className='btn btn-secondary' disabled={loading}>
+                            CANCEL
                         </button>
-                    </Container>
-                </div>
+                    </Link>
 
+                    <button
+                        className="btn btn-primary ms-2"
+                        disabled={loading}
+                        type="submit"
+                    >
+                        {loading ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        ) : (
+                            "UPDATE"
+                        )}
+                    </button>
+                </Container>
 
                 <hr />
             </form>
         </div>
     );
-}
+};
 
-export default ForgotPassword
+export default ForgotPassword;

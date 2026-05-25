@@ -1,0 +1,26 @@
+.home-page {
+  height: 100vh;
+  width: 100%;
+  background-image: url("");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.home-content {
+  background: rgba(0, 0, 0, 0.45); /* dark glass effect */
+  padding: 40px;
+  border-radius: 15px;
+  backdrop-filter: blur(4px);
+}
+
+.home-content h2,
+.home-content p {
+  color: white;
+}

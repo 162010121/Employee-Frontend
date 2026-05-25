@@ -1,37 +1,37 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
-
-
+import "./Home.css";
 
 const Home = () => {
   return (
-    <div>
-      <div className='app mt-2 d-grid gap-3 d-md-flex justify-content-md-end'>
-        <title>Full Stack App</title>
+    <div className="home-page">
 
+      <div className="home-content text-center">
+        <h2 className="fw-bold">Welcome to Full Stack App</h2>
 
+        <p className="mt-2" style={{ fontSize: "18px" }}>
+          Manage employees, track updates, and stay connected efficiently.
+        </p>
 
-        <div className="mt-3">
+        <div className="d-flex justify-content-center gap-3 mt-4">
+
           <Link to="/register">
-            <button className='btn btn-outline-primary'>
-              REGISTRATION
+            <button className="btn btn-primary px-4 py-2">
+              Registration
             </button>
           </Link>
-        </div>
-        <div className="mt-3">
-          <Link to="/employee-login">
-            <button className='btn btn-outline-primary'>
-              LOGIN
-            </button>
-          </Link>
-        </div>
-      </div>
-      <div className="home">
-        <h4> <p >Welcome! Manage your work, view updates, and stay connected.
-        </p></h4>
-      </div>
-    </div>
-  )
-}
 
-export default Home
+          <Link to="/employee-login">
+            <button className="btn btn-outline-light px-4 py-2">
+              Login
+            </button>
+          </Link>
+
+        </div>
+      </div>
+
+    </div>
+  );
+};
+
+export default Home;
