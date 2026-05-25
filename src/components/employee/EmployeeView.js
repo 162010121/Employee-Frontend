@@ -8,6 +8,8 @@ const EmployeeView = () => {
   const [employee, setEmployee] = useState([]);
   const [filteredEmployee, setFilteredEmployee] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
@@ -68,14 +70,20 @@ const EmployeeView = () => {
   };
 
   const confirmDelete = async () => {
+    setLoading(true);
     try {
       await axios.delete(
         `http://localhost:2000/employee/deleteEmployee/${selectedId}`
       );
+
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
       loadEmployee();
       closePopup();
+      setLoading(false);
     } catch (error) {
       console.error("Delete failed:", error);
+      setLoading(false);
     }
   };
 
@@ -174,8 +182,11 @@ const EmployeeView = () => {
             <h4>Are you sure?</h4>
             <p>This record will be permanently deleted.</p>
             <div className="modal-buttons">
-              <button className="btn btn-danger" onClick={confirmDelete}>
-                Yes, Delete
+              <button className="btn btn-danger"
+                onClick={confirmDelete}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes, Delete"}
               </button>
               <button className="btn btn-secondary" onClick={closePopup}>
                 Cancel
@@ -200,9 +211,8 @@ const EmployeeView = () => {
           {Array.from({ length: totalPages }, (_, i) => (
             <li
               key={i}
-              className={`page-item ${
-                currentPage === i + 1 ? "active" : ""
-              }`}
+              className={`page-item ${currentPage === i + 1 ? "active" : ""
+                }`}
             >
               <button
                 className="page-link"
@@ -214,9 +224,8 @@ const EmployeeView = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
