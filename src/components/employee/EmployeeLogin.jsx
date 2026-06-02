@@ -57,7 +57,15 @@ export const EmployeeLogin = () => {
         body: JSON.stringify(loginData),
       });
 
+      const employeeData = await response.json();
+
       if (response.ok) {
+
+
+        localStorage.setItem(
+          "employee",
+          JSON.stringify(employeeData)
+        );
         setLoading(true);
 
         setTimeout(() => {
@@ -68,7 +76,7 @@ export const EmployeeLogin = () => {
 
           setTimeout(() => {
             setShowSuccess(false);
-            navigate("/view-employee");
+            navigate(`/employee-profile/${employeeData.id}`);
           }, 2000);
 
         }, 3000);
@@ -156,7 +164,9 @@ export const EmployeeLogin = () => {
               disabled={loading}
             >
               {loading ? (
-                <span className="spinner-border spinner-border-sm"></span>
+                <>
+                  <span className="spinner-border spinner-border-sm"></span>
+                </>
               ) : (
                 "LOG IN"
               )}

@@ -8,7 +8,10 @@ const EmployeeView = () => {
   const [employee, setEmployee] = useState([]);
   const [filteredEmployee, setFilteredEmployee] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [searchNumber, setSearchNumber] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // ✅ Success popup
+
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +42,7 @@ const EmployeeView = () => {
   // 🔍 LIVE ADVANCED SEARCH
   const handleLiveSearch = (value) => {
     setSearchText(value);
+    setSearchNumber(value);
 
     if (value.trim() === "") {
       setFilteredEmployee(employee);
@@ -51,7 +55,8 @@ const EmployeeView = () => {
     const filtered = employee.filter((emp) =>
       emp.firstName.toLowerCase().includes(lowerValue) ||
       emp.lastName.toLowerCase().includes(lowerValue) ||
-      emp.email.toLowerCase().includes(lowerValue)
+      emp.email.toLowerCase().includes(lowerValue) ||
+      emp.gender.toLowerCase().includes(lowerValue)
     );
 
     setFilteredEmployee(filtered);
@@ -76,16 +81,19 @@ const EmployeeView = () => {
         `http://localhost:2000/employee/deleteEmployee/${selectedId}`
       );
 
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       loadEmployee();
       closePopup();
       setLoading(false);
+      setShowSuccessPopup(true); // ✅ Show success popup
+
     } catch (error) {
       console.error("Delete failed:", error);
       setLoading(false);
     }
   };
+ 
 
   // Pagination
   const totalPages = Math.max(
@@ -100,6 +108,11 @@ const EmployeeView = () => {
     indexOfLastRecord
   );
 
+  const closeSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    loadEmployee();
+  }; // Refresh list after update};
+
   return (
     <section className="container mt-3">
       {/* HEADER */}
@@ -110,10 +123,10 @@ const EmployeeView = () => {
 
         {/* 🔍 LIVE SEARCH INPUT */}
         <input
-          type="text"
+          type="text,number"
           className="form-control w-25"
-          placeholder="Search by username / email..."
-          value={searchText}
+          placeholder="Search by EmpId / email..."
+          value={searchText || searchNumber}
           onChange={(e) => handleLiveSearch(e.target.value)}
         />
       </div>
@@ -126,6 +139,7 @@ const EmployeeView = () => {
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Email</th>
+            <th>Gender</th>
             <th colSpan="3">Action</th>
           </tr>
         </thead>
@@ -142,7 +156,7 @@ const EmployeeView = () => {
                 <td>{emp.firstName}</td>
                 <td>{emp.lastName}</td>
                 <td>{emp.email}</td>
-
+                <td>{emp.gender}</td>
                 <td>
                   <Link
                     to={`/employee-profile/${emp.id}`}
@@ -195,6 +209,8 @@ const EmployeeView = () => {
           </div>
         </div>
       )}
+      {/* SUCCESS POPUP */}
+
 
       {/* PAGINATION */}
       <div className="d-flex justify-content-center mt-3">
@@ -236,7 +252,21 @@ const EmployeeView = () => {
           </li>
         </ul>
       </div>
+      {showSuccessPopup && (
+        <div className="modal-overlay">
+          <div className="modal-box animate-popup">
+            <h4>Delete Successful</h4>
+            <p>Profile has been deleted successfully!</p>
+            <div className="modal-buttons">
+              <button className="btn btn-primary" onClick={closeSuccessPopup}>
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
+
   );
 };
 

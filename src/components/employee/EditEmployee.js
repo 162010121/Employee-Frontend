@@ -11,14 +11,15 @@ const EditEmployee = () => {
     firstName: "",
     lastName: "",
     email: "",
+    gender: "",
     department: "",
   });
 
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // ✅ Success popup
 
-  const { firstName, lastName, email, department } = employee;
+  const { firstName, lastName, email, gender, department } = employee;
 
   useEffect(() => {
     loadEmployee();
@@ -72,7 +73,9 @@ const EditEmployee = () => {
   };
 
   return (
+
     <div className="login-form mt-5">
+
       <form onSubmit={handleUpdateClick}>
         <h4 className="text-uppercase text-center">USER DETAILS</h4>
         <hr />
@@ -97,6 +100,18 @@ const EditEmployee = () => {
             name="lastName"
             required
             value={lastName}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="input-group mb-4">
+          <label className="input-group-text">Gender</label>
+          <input
+            className="form-control"
+            type="text"
+            name="gender"
+            required
+            value={gender}
             onChange={handleInputChange}
           />
         </div>

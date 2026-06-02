@@ -8,9 +8,11 @@ const EmployeeProfile = () => {
 	const navigate = useNavigate();
 
 	const [employee, setEmployee] = useState({
+		id: "",
 		firstName: "",
 		lastName: "",
 		email: "",
+		gender: "",
 		department: "",
 		salary: "",
 	});
@@ -18,7 +20,7 @@ const EmployeeProfile = () => {
 	const [loading, setLoading] = useState(false);
 	const [logoutSuccess, setLogoutSuccess] = useState(false);
 
-	const { firstName, lastName, email } = employee;
+	const { firstName, lastName, email, gender } = employee;
 
 	useEffect(() => {
 		loadEmployee();
@@ -47,6 +49,8 @@ const EmployeeProfile = () => {
 
 	return (
 		<>
+			<h5>Welcome, {firstName} {lastName}!</h5>
+
 			{/* ⬆️ Logout + Loading Button */}
 			<div className="d-grid justify-content-md-end mt-3">
 				<button className="btn btn-outline-danger" onClick={handleLogout} disabled={loading}>
@@ -73,10 +77,14 @@ const EmployeeProfile = () => {
 					<h4 className="text-uppercase text-center">USER DETAILS..!</h4>
 					<hr />
 
+
+
+
+
 					<div className="input-group mb-4 mt-3">
 						<label className="input-group-text">First Name</label>
-						<input className="form-control" type="text" 
-						name="firstName" value={firstName} readOnly />
+						<input className="form-control" type="text"
+							name="firstName" value={firstName} readOnly />
 					</div>
 
 					<div className="input-group mb-4">
@@ -85,9 +93,16 @@ const EmployeeProfile = () => {
 					</div>
 
 					<div className="input-group mb-4">
+						<label className="input-group-text">Gender</label>
+						<input className="form-control" type="text" name="gender" value={gender} readOnly />
+					</div>
+
+					<div className="input-group mb-4">
 						<label className="input-group-text">Email</label>
 						<input className="form-control" type="email" name="email" value={email} readOnly />
 					</div>
+
+
 
 					<div className="row mb-3">
 						<div className="col-sm-2">

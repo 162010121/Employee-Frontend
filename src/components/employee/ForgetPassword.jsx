@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css"; // uses the CSS below added to Login.css

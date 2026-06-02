@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 export default function RREmployee() {
-    const [isRegistered, setIsRegistered] = useState(false);
+    const [setIsRegistered] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();

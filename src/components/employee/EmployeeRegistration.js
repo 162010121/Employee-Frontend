@@ -9,9 +9,11 @@ export const Registration = () => {
   let navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    id:'', // generate unique ID based on timestamp
     firstName: '',
     lastName: '',
     email: '',
+    gender: '',
     password: '',
     confirmPassword: '',
     termsAccepted: false
@@ -35,11 +37,15 @@ export const Registration = () => {
   const validateForm = () => {
     let formErrors = {};
 
+  
     if (!formData.firstName.trim())
       formErrors.firstName = "First name is required";
 
     if (!formData.lastName.trim())
       formErrors.lastName = "Last name is required";
+
+    if (!formData.gender.trim())
+      formErrors.gender = "Gender is required";
 
     if (!formData.email.trim()) {
       formErrors.email = "Email is required";
@@ -95,7 +101,7 @@ export const Registration = () => {
         setTimeout(() => {
           setShowSuccess(false);
           navigate("/rr-employee");
-        }, 2000);
+        }, 1000);
 
       }, 3000);
 
@@ -131,7 +137,7 @@ export const Registration = () => {
           <hr />
 
           {/* First Name */}
-          <div className="mt-1">
+          <div className="mt-3">
             <input
               type="text"
               className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
@@ -204,6 +210,43 @@ export const Registration = () => {
               <small className="text-danger">{errors.confirmPassword}</small>
             )}
           </div>
+          {/* Gender */}
+          <div className="mt-3">
+            <div>
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={formData.gender === "Male"}
+                onChange={handleChange}
+              />
+              <label className="ms-1 me-3">Male</label>
+
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={formData.gender === "Female"}
+                onChange={handleChange}
+              />
+              <label className="ms-1 me-3">Female</label>
+
+              <input
+                type="radio"
+                name="gender"
+                value="Other"
+                checked={formData.gender === "Other"}
+                onChange={handleChange}
+              />
+              <label className="ms-1">Other</label>
+            </div>
+
+            {errors.gender && (
+              <small className="text-danger d-block">
+                {errors.gender}
+              </small>
+            )}
+          </div>
 
           {/* Terms */}
           <div className="mt-3">
@@ -213,7 +256,7 @@ export const Registration = () => {
               checked={formData.termsAccepted}
               onChange={handleChange}
             />{" "}
-            
+
             <label>I accept the <Link to="/terms">Terms & Conditions</Link></label>
 
             {errors.termsAccepted && (
